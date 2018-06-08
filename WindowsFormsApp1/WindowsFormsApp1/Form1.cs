@@ -101,12 +101,55 @@ namespace WindowsFormsApp1
 
         private void btnEnkripto_Click(object sender, EventArgs e)
         {
-
+         try{
+                    RSACryptoServiceProvider rsa = (RSACryptoServiceProvider)certifikata.PublicKey.Key;
+                byte[] plainBytes = System.IO.File.ReadAllBytes(txtShteguFile.Text);
+                byte[] encryptedBytes = rsa.Encrypt(plainBytes, true);
+                SaveFileDialog save = new SaveFileDialog();
+                save.Filter = "Text File | *.txt";
+                if (save.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    File.WriteAllBytes(save.FileName, encryptedBytes);
+                }
+            }
+            catch (CryptographicException ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnDekripto_Click(object sender, EventArgs e)
         {
+            zgjedhFile();
+            try
+            {
+                
+                RSACryptoServiceProvider rsa = (RSACryptoServiceProvider)certifikata.PrivateKey;
+                byte[] plainBytes = System.IO.File.ReadAllBytes(txtShteguFile.Text);
+                byte[] encryptedBytes = rsa.Decrypt(plainBytes, true);
 
+                SaveFileDialog save = new SaveFileDialog();
+                if (save.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    File.WriteAllBytes(save.FileName, encryptedBytes);
+                }
+            }
+            catch (CryptographicException ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void txtShteguFile_TextChanged(object sender, EventArgs e)
