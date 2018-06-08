@@ -135,7 +135,6 @@ namespace WindowsFormsApp1
                 byte[] encryptedBytes = rsa.Decrypt(plainBytes, true);
 
                 SaveFileDialog save = new SaveFileDialog();
-                save.Filter = "Text File | *.txt";
                 if (save.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     File.WriteAllBytes(save.FileName, encryptedBytes);
