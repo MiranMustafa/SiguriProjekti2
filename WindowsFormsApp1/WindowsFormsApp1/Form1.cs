@@ -99,11 +99,6 @@ namespace WindowsFormsApp1
 
         }
 
-        private void btnZgjedhCertifikaten_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnEnkripto_Click(object sender, EventArgs e)
         {
 
