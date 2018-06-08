@@ -70,7 +70,32 @@ namespace WindowsFormsApp1
         }
 
         private void btnZgjedhFile_Click(object sender, EventArgs e)
+       {
+            zgjedhFile();
+        }
+        X509Certificate2 certifikata;
+        private void btnZgjedhCertifikaten_Click(object sender, EventArgs e)
         {
+            // ne windows per qertifikata e kemi x509 store-in
+            X509Store objStore = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+            objStore.Open(OpenFlags.OpenExistingOnly);
+            X509Certificate2Collection certCollection =
+                X509Certificate2UI.SelectFromCollection(objStore.Certificates, "Zgjedh certifikaten per nenshkrim ",
+                "Zgjedh Certifikatan", X509SelectionFlag.SingleSelection);
+
+            certifikata = certCollection[0];
+            if (certifikata.HasPrivateKey)
+            {
+                MessageBox.Show("Certifikata permban qeles privat");
+            }
+            string strContent = "";
+            strContent += "Subject: " + certifikata.Subject + "\n";
+            strContent += "Issuer: " + certifikata.Issuer + "\n";
+            strContent += "Thumb Print: " + certifikata.Thumbprint + "\n";
+
+            MessageBox.Show("Te dhenat e certifikates: \n\n " + strContent);
+
+            //  X509Certificate2 c = new X509Certificate2(//file path); 
 
         }
 
